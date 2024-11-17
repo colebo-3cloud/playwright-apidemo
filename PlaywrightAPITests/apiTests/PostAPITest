@@ -1,0 +1,40 @@
+namespace PlaywrightAPITests;
+
+using System.Text.Json;
+using Microsoft.Playwright;
+using Microsoft.Playwright.MSTest;
+using PlaywrightAPITests.Models;
+
+[TestClass]
+public class PostAPITests : ApiBaseTest
+{
+    [TestInitialize]
+    public async Task SetupTest()
+    {
+        await base.CreateAPIRequestContext("https://dummy.restapiexample.com/api/v1/");
+    }
+
+    [TestMethod]
+    public async Task EmployeePostTest()
+    {
+        var emplyee = new EmployeeCreate(
+        {
+            name = "Test",
+            salary = "198,000",
+            age = "45",
+            id = 75 
+        });
+        
+        var postResponse = await Request.PostAsync("create/", new() { DataObject = emplyee });
+        //var responseJson = await response.JsonAsync();
+        Assert.AreEqual(200, postResponse.Status, $"Expected status [200] and actual status [{postResponse.Status}]");
+
+        var getResponse = await Request.GetAsync("employee/" + emplyee.id);
+        var responseJson = await response.JsonAsync();
+        var emplyeeData = responseJson?.Deserialize<EmployeeResponse>();
+
+        Console.WriteLine("Employee Name: " + employeeData?.name);
+        Assert.AreEqual(200, getResponse.Status, $"Expected status [200] and actual status [{getResponse.Status}]");
+        Assert.AreEqual("Test", emplyeeData?.name, $"Expected elevation [263] and actual elevation [{emplyeeData?.name}]");
+    }
+}
