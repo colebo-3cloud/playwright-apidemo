@@ -20,7 +20,6 @@ public class WeatherAPITests : ApiBaseTest
         string requestString = CreateRequestString("-93.26", "44.97");
         var response = await Request.GetAsync(requestString);
         var responseJson = await response.JsonAsync();
-        //Console.WriteLine(responseJson.ToString());
         var weatherData = responseJson?.Deserialize<WeatherApiResponseObject>();
         Console.WriteLine("Minneapolis Elevation: " + weatherData?.elevation);
         double? temp = weatherData?.GetTempForDate(DateTime.Now);

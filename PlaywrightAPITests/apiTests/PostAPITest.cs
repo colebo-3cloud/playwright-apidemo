@@ -1,7 +1,6 @@
 namespace PlaywrightAPITests;
 
 using System.Text.Json;
-using System.Text;
 using Microsoft.Playwright;
 using Microsoft.Playwright.MSTest;
 using PlaywrightAPITests.Models;
@@ -18,7 +17,7 @@ public class PostAPITests : ApiBaseTest
     [TestMethod]
     public async Task ObjectPostTest()
     {
-        var emplyee = new ObjectCreate
+        var comp = new ObjectCreate
         {
             name = "Test Computer",
             data = new ObjectCreate.Data
@@ -30,7 +29,10 @@ public class PostAPITests : ApiBaseTest
             }
         };
         
-        var postResponse = await Request.PostAsync("objects/", new() { DataObject = emplyee });
+        var postResponse = await Request.PostAsync("objects", new() { DataObject = comp });
         Assert.AreEqual(200, postResponse.Status, $"Expected status [200] and actual status [{postResponse.Status}]");
+        var responseJson = await postResponse?.JsonAsync();
+        var addedObject = responseJson?.Deserialize<ObjectResponse>();
+        Assert.AreEqual("Intel Core 2 Duo", addedObject.data.CPU_Model, $"Expected CPU Model [{comp.data.CPU_Model}] and got Actual CPU Model [{addedObject.data.CPU_Model}]");
     }
 }
