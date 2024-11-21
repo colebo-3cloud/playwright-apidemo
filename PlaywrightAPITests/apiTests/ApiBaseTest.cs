@@ -14,7 +14,7 @@ public class ApiBaseTest : PlaywrightTest
     {
         var headers = new Dictionary<string, string>();
         // Add token if needed here
-        //headers.Add("Authorization", "token" + API_TOKEN);
+        //headers.Add("Authorization", "token");
         headers.Add("content-type", "application/json");
 
         Request = await Playwright.APIRequest.NewContextAsync(new() {

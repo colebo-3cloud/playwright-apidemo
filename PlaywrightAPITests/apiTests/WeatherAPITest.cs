@@ -15,7 +15,7 @@ public class WeatherAPITests : ApiBaseTest
     }
 
     [TestMethod]
-    public async Task GetLocalCloudCover()
+    public async Task GetLocalWeather()
     {
         string requestString = CreateRequestString("-93.26", "44.97");
         var response = await Request.GetAsync(requestString);
