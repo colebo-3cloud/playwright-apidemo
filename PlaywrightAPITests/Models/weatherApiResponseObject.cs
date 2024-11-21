@@ -25,9 +25,7 @@ public class WeatherApiResponseObject
 
     public double GetTempForDate(DateTime date)
    {
-        //Console.WriteLine(date.ToString("yyyy-MM-dd"));
         int index = this.daily?.time?.IndexOf(date.ToString("yyyy-MM-dd")) ?? -1;
-        //Console.WriteLine("Index: " + index);
         double temp = this.daily?.temperature_2m_max?[index] ?? -1;
         return temp;
    }
